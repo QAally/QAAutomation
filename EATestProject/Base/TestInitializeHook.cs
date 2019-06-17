@@ -59,8 +59,12 @@ namespace EAAutoFramework.Base
 
                     break;
                 case BrowserType.Chrome:
-                     cap.SetCapability(CapabilityType.BrowserName, "chrome");
+                    DesiredCapabilities capabilities = new DesiredCapabilities();
+                    cap.SetCapability(CapabilityType.BrowserName, "chrome");
+                    _parallelConfig.Driver  = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"), cap);
+                    _parallelConfig.Driver = new RemoteWebDriver(capabilities);
                     _parallelConfig.Driver = new ChromeDriver();
+                    DesiredCapabilities actualCapabilities = ((RemoteWebDriver)_parallelConfig.Driver).getCapabilities();
                     _parallelConfig.Driver.Manage().Window.Maximize();
                     _parallelConfig.Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(60);
                     break;
@@ -68,7 +72,7 @@ namespace EAAutoFramework.Base
 
 
 
-            //_parallelConfig.Driver = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"), cap);
+            _parallelConfig.Driver = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"), cap);
             //_parallelConfig.Driver = new RemoteWebDriver(new Uri("http://remoteServer:4444/wd/hub"), cap);
         }
 
